@@ -6,12 +6,19 @@
 package br.ifsul.edu.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,6 +31,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable{
     
     @Id
@@ -42,6 +50,10 @@ public class Usuario implements Serializable{
     @Length(max = 30, message = "A senha não pode ter mais que {max} caracteres")
     @Column(name = "senha", length = 30, nullable = false)
     private String senha;
+    
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Acesso> acesso = new ArrayList<>();
     
     private Boolean administrador;
     
@@ -111,7 +123,20 @@ public class Usuario implements Serializable{
         }
         return true;
     }
+
     
-    
-    
+    public void adicionarAcesso(Acesso obj){
+        obj.setUsuario(this);
+        this.acesso.add(obj);
+    }
+
+    public List<Acesso> getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(List<Acesso> acesso) {
+        this.acesso = acesso;
+    }
+
+        
 }

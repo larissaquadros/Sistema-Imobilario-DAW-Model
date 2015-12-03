@@ -5,26 +5,26 @@
  */
 package br.ifsul.edu.dao;
 
-import br.ifsul.edu.model.Imovel;
+import br.ifsul.edu.model.Usuario;
 import java.io.Serializable;
-import java.util.List;import javax.persistence.Persistence;
-
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
  * @author Larissa
  */
-public class ImovelDao implements Serializable{
+public class UsuarioDao implements Serializable{
     
-    private List<Imovel> listarTodos;
+    private List<Usuario> listarTodos;
 
-    public ImovelDao() {
+    public UsuarioDao() {
 
     }
     
-    public void persistir(Imovel objeto) throws Exception {
+    public void persistir(Usuario objeto) throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Sistema-Imobiliario-DAW-ModelPU");
         EntityManager em = emf.createEntityManager();
         try {
@@ -45,7 +45,7 @@ public class ImovelDao implements Serializable{
         }
     }
     
-    public void merge(Imovel objeto) throws Exception {
+    public void merge(Usuario objeto) throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Sistema-Imobiliario-DAW-ModelPU");
         EntityManager em = emf.createEntityManager();
         try {
@@ -73,7 +73,7 @@ public class ImovelDao implements Serializable{
             if (em.getTransaction().isActive() == false){
                 em.getTransaction().begin();
             }
-            Imovel objeto = em.find(Imovel.class, id);
+            Usuario objeto = em.find(Usuario.class, id);
             em.remove(objeto);
             em.getTransaction().commit();
         } catch (Exception e){
@@ -88,13 +88,11 @@ public class ImovelDao implements Serializable{
         }
     }      
     
-    public Imovel getObjectById(Integer id) throws Exception {
+    public Usuario getObjectById(Integer id) throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Sistema-Imobiliario-DAW-ModelPU");
         EntityManager em = emf.createEntityManager();
         try {
-            Imovel obj = em.find(Imovel.class, id);
-            obj.getCaracteristicas().size();
-            return obj;
+            return em.find(Usuario.class, id);
         } catch (Exception e){
             throw  new Exception("Erro ao executar a operação de persistência: "+e.getMessage());
         } finally{
@@ -103,11 +101,11 @@ public class ImovelDao implements Serializable{
         }
     }    
 
-    public List<Imovel> getListarTodos() throws Exception {
+    public List<Usuario> getListarTodos() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Sistema-Imobiliario-DAW-ModelPU");
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("from Imovel order by id").getResultList();
+            return em.createQuery("from Usuario order by login").getResultList();
         } catch (Exception e){
             throw  new Exception("Erro ao executar a operação de persistência: "+e.getMessage());
         } finally{
@@ -116,8 +114,7 @@ public class ImovelDao implements Serializable{
         }
     }
 
-    public void setListarTodos(List<Imovel> listarTodos) {
+    public void setListarTodos(List<Usuario> listarTodos) {
         this.listarTodos = listarTodos;
     }
-
 }

@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -40,7 +39,6 @@ public class Contrato implements Serializable{
     @Column(name = "data_inicio",nullable = false)
     private Calendar data_inicio;
     
-    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name = "data_encerramento",nullable = true)
     private Calendar data_encerramento;
